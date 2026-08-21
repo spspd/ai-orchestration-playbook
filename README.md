@@ -1,0 +1,48 @@
+# AI Orchestration Playbook
+
+Turn open-ended knowledge work into bounded, verifiable worker jobs.
+Keep judgment with the operator while parallel workers collect, transform, and test evidence.
+Recover from bad outputs through explicit ownership, checkpoints, and verification gates.
+
+```mermaid
+flowchart LR
+    O[Operator<br/>intent and judgment] --> C[Worker contracts]
+    C --> W1[Worker A]
+    C --> W2[Worker B]
+    C --> W3[Worker C]
+    W1 --> A[Adapter / conflict review]
+    W2 --> A
+    W3 --> A
+    A --> G[Verification gate]
+    G -->|pass| L[Durable ledger]
+    G -->|fail with evidence| C
+```
+
+This repository is a tool-agnostic operating pattern for document organization, research, and record-processing pipelines. It focuses on contracts and evidence, not on a particular model or private codebase.
+
+## Quick start
+
+1. Copy [`templates/worker-contract.md`](templates/worker-contract.md) and define one outcome, owned paths, boundaries, and a measurable done condition.
+2. Split independent jobs by file or resource ownership. Run only jobs whose inputs are ready.
+3. Route interface mismatches to an adapter job instead of letting workers rewrite one another's outputs.
+4. Check every result with [`templates/verification-gate.md`](templates/verification-gate.md). A completion message is not evidence.
+5. Record accepted facts, rejected evidence, and unresolved questions in a durable ledger.
+
+Start with two workers and one verifier. Add concurrency only after ownership and recovery behavior are clear.
+
+## Measured case
+
+A one-day operating snapshot recorded **212 session files** and **529,682,822 total logged tokens** by 16:25 KST. These are operating-cost and observability data, not an achievement metric: the 212 files comprised 131 top-level execution sessions, 8 interactive sessions, and 73 nested sessions, not 212 independent workers. An earlier 13:57 cutoff tracked 75 top-level workers, including six failed or interrupted attempts and four explicit recovery sessions.
+
+The useful result was not raw volume. The pipeline exposed three failure modes—display encoding errors, stalled workers, and a plausible but incorrect repository—and recovered through byte-level checks, checkpoint handoff, source identity checks, and independent verification.
+
+## Read next
+
+- [Playbook](docs/playbook.md): roles, contracts, parallel operation, and adapters
+- [Case study](docs/case-study.md): measured results, failures, and recovery
+- [Cost and token accounting](docs/cost.md): reproducible aggregation and routing ideas
+- [Korean README](README.ko.md)
+
+## License
+
+[MIT](LICENSE)
