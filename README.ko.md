@@ -1,8 +1,14 @@
 # AI 오케스트레이션 플레이북
 
+[![라이선스: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](LICENSE)
+
+[English](README.md) | [한국어](README.ko.md)
+
 경계가 모호한 지식 작업을 범위와 완료 조건이 분명한 워커 작업으로 바꿉니다.
 판단은 운영자가 맡고, 병렬 워커는 근거 수집·변환·검증 가능한 실행을 담당합니다.
 파일 소유권, 체크포인트, 검증 게이트로 잘못된 결과를 발견하고 복구합니다.
+
+## 작동 방식
 
 ```mermaid
 flowchart LR

@@ -1,8 +1,14 @@
 # AI Orchestration Playbook
 
+[![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](LICENSE)
+
+[English](README.md) | [한국어](README.ko.md)
+
 Turn open-ended knowledge work into bounded, verifiable worker jobs.
 Keep judgment with the operator while parallel workers collect, transform, and test evidence.
 Recover from bad outputs through explicit ownership, checkpoints, and verification gates.
+
+## How it works
 
 ```mermaid
 flowchart LR

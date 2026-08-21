@@ -1,0 +1,10 @@
+# Temporary files and directories
+tmp/
+*.tmp
+*.temp
+
+# Editor and operating-system artifacts
+.vscode/
+.idea/
+.DS_Store
+Thumbs.db
