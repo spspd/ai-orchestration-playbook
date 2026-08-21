@@ -36,17 +36,18 @@ This repository is a tool-agnostic operating pattern for document organization, 
 
 Start with two workers and one verifier. Add concurrency only after ownership and recovery behavior are clear.
 
-## Measured case
+## Generalized case
 
-A one-day operating snapshot recorded **212 session files** and **529,682,822 total logged tokens** by 16:25 KST. These are operating-cost and observability data, not an achievement metric: the 212 files comprised 131 top-level execution sessions, 8 interactive sessions, and 73 nested sessions, not 212 independent workers. An earlier 13:57 cutoff tracked 75 top-level workers, including six failed or interrupted attempts and four explicit recovery sessions.
+A private one-day operating snapshot was generalized for this repository. Exact timestamps, session counts, token totals, repository identifiers, and organization-specific details are intentionally omitted because they can reveal internal capacity, cost, and activity patterns. The public case preserves the measurement method and failure lessons without publishing the underlying private records.
 
 The useful result was not raw volume. The pipeline exposed three failure modes—display encoding errors, stalled workers, and a plausible but incorrect repository—and recovered through byte-level checks, checkpoint handoff, source identity checks, and independent verification.
 
 ## Read next
 
 - [Playbook](docs/playbook.md): roles, contracts, parallel operation, and adapters
-- [Case study](docs/case-study.md): measured results, failures, and recovery
+- [Case study](docs/case-study.md): generalized measurements, failures, and recovery
 - [Cost and token accounting](docs/cost.md): reproducible aggregation and routing ideas
+- [Privacy and retention](docs/privacy.md): classification, redaction, quarantine, and deletion
 - [Korean README](README.ko.md)
 
 ## License

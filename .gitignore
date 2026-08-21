@@ -8,3 +8,27 @@ tmp/
 .idea/
 .DS_Store
 Thumbs.db
+
+# Local credentials and private configuration
+.env
+.env.*
+!.env.example
+*.pem
+*.key
+*.p12
+*.pfx
+*.jks
+credentials*.json
+secrets*.json
+
+# Raw orchestration and evidence artifacts
+*.jsonl
+logs/
+checkpoints/
+quarantine/
+private/
+restricted/
+
+# Local agent state
+.codex/
+.claude/
