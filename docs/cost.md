@@ -8,13 +8,15 @@ The case snapshot reports logged tokens, not a bill. No trustworthy model-specif
 
 For each JSONL session file:
 
-1. Freeze a cutoff timestamp and enumerate files once.
-2. Read the **first** session metadata record. A nested file may repeat parent metadata later.
-3. Classify the session as top-level execution, interactive, or nested.
-4. Find token-usage events and take the last cumulative `total_token_usage` value in that file.
-5. Do not sum cumulative events within a session.
-6. Record files with missing usage separately; use textual fallbacks only if their semantics are known.
-7. Sum categories, verify that category counts equal the file count, and retain the cutoff and script version.
+1. Freeze a cutoff timestamp and enumerate files once in a controlled local environment. Do not publish the file list.
+2. Read only the fields required for classification and usage. Do not copy prompts, tool output, file paths, user identifiers, or unrelated metadata.
+3. Read the **first** session metadata record. A nested file may repeat parent metadata later.
+4. Classify the session as top-level execution, interactive, or nested.
+5. Find token-usage events and take the last cumulative `total_token_usage` value in that file.
+6. Do not sum cumulative events within a session.
+7. Record files with missing usage separately; use textual fallbacks only if their semantics are known.
+8. Sum categories, verify that category counts equal the file count, and retain the cutoff and script version in an access-controlled record.
+9. Delete the frozen file list and temporary extracts after verification unless an approved retention requirement says otherwise.
 
 Pseudocode:
 
@@ -28,24 +30,26 @@ for file in frozen_session_file_list:
 assert sum(coverage) == len(frozen_session_file_list)
 ```
 
-## Measured snapshot
+## Privacy-preserving public reporting
 
-At 2026-08-20 16:25:44 KST, all 212 enumerated files contained a usage record.
+The source case used a private frozen snapshot. Exact timestamps, counts, token totals, cache ratios, model identifiers, and per-session values are intentionally withheld from this public repository. They are not necessary to reproduce the aggregation method and can reveal internal capacity, cost, and activity patterns.
 
-| Category | Sessions | Logged tokens | Share |
-|---|---:|---:|---:|
-| Top-level execution | 131 | 187,757,345 | 35.45% |
-| Interactive | 8 | 91,678,832 | 17.31% |
-| Nested | 73 | 250,246,645 | 47.24% |
-| **Total** | **212** | **529,682,822** | **100.00%** |
+For a public report:
 
-The detailed counters recorded 526,874,085 input tokens and 2,808,737 output tokens. Of the input, 499,131,520 tokens were cached input: **94.73% of input** and **94.23% of total logged tokens**. Cached tokens still appear in the total counter; their billing treatment may differ.
+- use a period such as a month or quarter instead of an exact execution timestamp;
+- prefer ranges, rounded percentages, or normalized indices over exact totals;
+- suppress small categories that could identify a person, project, or unusual session;
+- describe the population and method without publishing filenames or raw metadata;
+- label values as synthetic, rounded, author-reported, or independently verified;
+- obtain approval before naming a provider, model, repository, organization, or host environment.
+
+Use synthetic fixtures when demonstrating an aggregation script. Keep exact internal counters in an access-controlled cost record, not in Git history.
 
 ## Interpret the cache ratio carefully
 
 A high cache share can mean repeated stable context was reused. It can also reveal oversized system prompts, parent-history replication in nested sessions, or repeated reading of irrelevant material. Token counts alone cannot distinguish these cases.
 
-Inspect the largest sessions first. Remove repeated tool output, build logs, and irrelevant history from the context boundary. For research archives, index metadata first and load only relevant turns or passages.
+Inspect the largest sessions locally, without exporting their raw contents. Remove repeated tool output, build logs, and irrelevant history from the context boundary. For research archives, index only approved metadata first and load relevant turns or passages under the same access controls as the source.
 
 ## Separate consultation from tool calling
 
@@ -66,9 +70,12 @@ The aim is not to minimize every call. It is to spend reasoning and context wher
 
 ## Cost report checklist
 
+- Mark the report `public`, `internal`, or `restricted` before collecting data.
 - State cutoff, timezone, file coverage, and category rules.
 - Separate input, cached input, and output.
 - Separate top-level, interactive, and nested usage.
 - Name the model and pricing effective date for monetary estimates.
 - Report retries and failed attempts; they are part of cost.
 - Keep raw usage and inferred currency in separate columns.
+- For public reports, generalize timestamps, round values, suppress small groups, and remove source identifiers.
+- Record the owner, approved audience, retention period, and deletion date for the underlying evidence.
